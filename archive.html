@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="script.js" defer></script>
+  <title>Zachary Robert James</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: black;
+      background-color: white;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .showcase-image {
+      max-width: 300px;
+      height: auto;
+      margin-left: 30px;
+    }
+
+    .signature-image {
+      max-width: 350px;
+      height: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      color: black !important;
+    }
+
+    nav ul {
+      display: flex;
+      list-style-type: none;
+      margin-right: 0;
+    }
+
+    nav ul li {
+      margin: 15px;
+      color: black;
+    }
+
+    nav ul li a {
+      color: black;
+    }
+
+    a {
+      color: black;
+    }
+
+    a:hover {
+      color: rgb(0, 81, 143);
+    }
+
+    .sort a {
+      color: black;
+    }
+
+    .sort-cont {
+
+    }
+
+    .intro {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .intro-auxilary {
+      text-align: right;
+    }
+
+    .intro-auxilary a {
+      color: black;
+    }
+
+    .intro-text a {
+      color: black;
+    }
+
+    .intro-text,
+    .values-text {
+      text-align: left;
+    }
+
+    h1,
+    h2 {
+      color: black;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Ensuring the containers for the links are sorting properly */
+    .lit-syn-cont a, .writings-cont a, .course-notes-cont a, .apps-scripts-cont a {
+      display: block; 
+      margin: 5px 0 !important;
+    }
+
+    .filter-btn:hover {
+      background-color: rgb(255, 206, 0);
+      color: white;
+    }
+
+    .filter-btn.active {
+      background-color: black;
+      color: white;
+    }
+    
+  </style>
+</head>
+
+<body>
+  
+  <div class="container">
+    <nav>
+      <a href="index.html"><img class="signature-image" src="SignatureImage.jpg"
+          alt="Zachary Robert James Signature" /></a>
+      <ul>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="archive.html">Archive</a></li>
+        <li><a href="realfood.html">Scaling Real Food</a></li>
+      </ul>
+    </nav>
+    <div class="services-section">
+      <h2>Archive</h2>
+      <div class="services-container">
+        <div class="custom-swe">
+          <div class="sort-cont">
+            <h3>Literary Synthesis</h3>
+            <div class="sort">
+              <p>Sort: 
+              <button class="filter-btn" onclick="toggleFilter(this, 'io-psych', 'lit-syn-cont')">I/O Psyc.</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'marketing', 'lit-syn-cont')">Marketing</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'biography', 'lit-syn-cont')">Biography</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'philosophy', 'lit-syn-cont')">Philosophy</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'history', 'lit-syn-cont')">History</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'science', 'lit-syn-cont')">Science</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'political-theory', 'lit-syn-cont')">Political Theory</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'theology', 'lit-syn-cont')">Theology</button>
+            </div>
+          </div>
+          
+          <div class="lit-syn-cont">
+            <a href="/archive/literary-synthesis/ideal-team-player.html">How to be a Team Player: Notes from Patrick Lencioni's <i>Ideal Team Player</i></a>
+            <a href="/archive/literary-synthesis/deep-work.html">Depth Necessity: Cal Newport's <i>Deep Work</i> Hypothesis - in Light of the Exponential Advancemnt in Autmation</a>
+          </div>
+        </div>
+        
+        <div class="custom-swe">
+         
+         <div class="sort-cont">
+          <h3>Writings</h3>
+          <div class="sort">
+            <p>Sort:
+              <button class="filter-btn" onclick="toggleFilter(this, 'ai-ethics', 'writings-cont')">AI Ethics</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'aba', 'writings-cont')">ABA</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'psychology', 'writings-cont')">Marketing</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'history', 'writings-cont')">History</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'science', 'writings-cont')">Science</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'political-theory', 'writings-cont')">Political Theory</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'theology', 'writings-cont')">Theology</button>
+            </p>
+          </div>
+         </div>
+        
+          <div div class="writings-cont">
+            <a href="/archive/essays/template.html">Template</a>
+          </div>
+        </div>
+
+        <div class="custom-swe">
+          <h3>Course Notes</h3>
+          <p>A resource to help me retain my knowledge and for others as well.</p>
+          
+          <div class="sort">
+            <p>Sort:
+              <button class="filter-btn" onclick="toggleFilter(this, 'math', 'course-notes-cont')">Math</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'cs', 'course-notes-cont')">Computer Science</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'psychology', 'course-notes-cont')">Psychology</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'critical-analysis', 'course-notes-cont')">Critical Analysis</button>
+            </p>
+          </div>
+          <div class="course-notes-cont">
+            <a class="math" href="/archive/course-notes/calculus.html">Calculus</a><br>
+            <a class="b" href="/archive/course-notes/template.html">Template</a>
+          </div>
+        </div>
+
+        <div class="custom-swe">
+          <h3>Scripts & Software</h3>
+          <p>Applications and scripts I have built that you may be able to get use from.</p>
+          <div class="sort">
+            <p>Sort:
+              <button class="filter-btn" onclick="toggleFilter(this, 'script', 'apps-scripts-cont')">Scripts</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'software', 'apps-scripts-cont')">Software</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'python', 'apps-scripts-cont')">Python</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'c++', 'apps-scripts-cont')">C++</button>
+              <button class="filter-btn" onclick="toggleFilter(this, 'java', 'apps-scripts-cont')">Java</button>
+            </p>
+          </div>
+          <div class="apps-scripts-cont">
+            <a href="/archive/course-notes/calculus.html" class="python script">Accounting Receipts OCR</a>
+            <a href="/archive/course-notes/calculus.html" class="java software">Java</a>
+            <a href="/archive/course-notes/calculus.html" class="c++ script">C++ script</a>
+            <a href="/archive/course-notes/calculus.html" class="c++ software">C++ software</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="copyright">
+        <p>© Zachary Robert James. All rights reserved.</p>
+      </div>
+    </div>
+</body>
+
+</html>
