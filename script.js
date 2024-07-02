@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function() {
+  includeHTML();
+});
+
 function includeHTML() {
   const elements = document.querySelectorAll('[data-include-html]');
   elements.forEach(el => {
@@ -8,23 +12,14 @@ function includeHTML() {
         .then(data => {
           el.innerHTML = data;
           el.removeAttribute('data-include-html');
-          includeHTML(); // Recursively call to handle nested includes
+          includeHTML(); // Call this again in case there are nested includes
         })
         .catch(error => console.error('Error loading file:', error));
     }
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  includeHTML();
-  /*
-  // Example LaTeX usage
-  document.body.innerHTML += '<p>Here is a math equation: \\(E = mc^2\\)</p>';
-  MathJax.typeset();
-  */
-});
-
-// Your existing functions
+// Your existing functions (no changes needed for the include functionality)
 let activeFilters = [];
 
 function toggleFilter(button, category, parent) {
