@@ -195,10 +195,6 @@ h1 {
   margin-top: 60px;
 }
 
-.footer-description p {
-  /* margin-bottom: 10px; */
-}
-
 .footer-articles {
   flex-grow: 1;
   display: flex;
