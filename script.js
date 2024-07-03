@@ -1,21 +1,68 @@
-function loadHtml(file, elementId) {
-  fetch(file)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-    })
-    .then((data) => {
-      document.getElementById(elementId).innerHTML = data;
-    })
-    .catch((error) => console.error('Error loading file:', error));
+// Defines my-header for the template header
+class myHeader extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <header class="header">
+        <div class="header-container">
+          <a href="/index.html"><img class="signature-image" src="/archive/images/agape_bloom_signature.png"
+              alt="Agape Bloom" /></a>
+          <nav>
+            <ul>
+              <li><a href="/about.html">About Me</a></li>
+              <li><a href="/archive.html">Archive</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    `;
+  }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  loadHtml('/header.html', 'header');
-  loadHtml('/footer.html', 'footer');
+class myFooter extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <footer>
+        <div class="footer-content">
+          <div class="footer-description">
+            <p>Agape Bloom (AB) is a Louisiana-based development and application consultancy that helps companies adapt with
+              and leverage technology in a rapidly changing ecosystem. We help you build LLM-driven tools for both internal
+              and external products that leverage smaller, open-source models, scratch regression and classification models,
+              and traditional software.</p>
+          </div>
+          <div class="footer-articles">
+            <h4>Recent Articles</h4>
+            <div class="articles_cont">
+              <a href="/archive/literary-synthesis/ideal-team-player.html">How to be a Team Player</a>
+              <a href="/archive/literary-synthesis/deep-work.html">Depth Necessity: Cal Newport's Deep Work</a>
+              <a href="/archive/literary-synthesis/designing-orgs-inforich-world.html">Designing Organizations for an
+                Information-Rich World</a>
+              <a href="/archive/literary-synthesis/article4.html">Article 4</a>
+              <a href="/archive/literary-synthesis/article5.html">Article 5</a>
+              <a href="/archive/literary-synthesis/article6.html">Article 6</a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <a href="https://www.linkedin.com/company/agapebloom/" target="_blank">
+              <img src="/archive/images/yellow-linkedin-icon.png" alt="LinkedIn">
+            </a>
+            <a href="https://twitter.com" target="_blank">
+              <img src="/archive/images/yellow-x_twitter-icon.png" alt="Twitter">
+            </a>
+            <a href="https://youtube.com" target="_blank">
+              <img src="/archive/images/yellow-youtube-icon.png" alt="YouTube">
+            </a>
+          </div>
+        </div>
+        <p id="copywright">© 2024 Agape Bloom.  All rights reserved.</p>
+      </footer>
+    `;
+  }
+}
 
+customElements.define('my-header', myHeader);
+customElements.define('my-footer', myFooter);
+
+document.addEventListener("DOMContentLoaded", function () {
   // Your existing code
   const storedImageUrl = localStorage.getItem("lastArtImageUrl");
   const storedImageTitle = localStorage.getItem("lastArtImageTitle");
