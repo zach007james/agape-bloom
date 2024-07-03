@@ -1,3 +1,9 @@
+// hugging face login:
+
+// email: info@agapebloom.customElements
+// password: Eatrealfood!1
+
+
 // Defines my-header for the template header
 class myHeader extends HTMLElement {
   connectedCallback() {
@@ -8,7 +14,8 @@ class myHeader extends HTMLElement {
               alt="Agape Bloom" /></a>
           <nav>
             <ul>
-              <li><a href="/about.html">About Me</a></li>
+              <li><a href="/contact.html">Contact</a></li>
+              <li><a href="/about.html">About</a></li>
               <li><a href="/archive.html">Archive</a></li>
             </ul>
           </nav>

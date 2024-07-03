@@ -171,7 +171,6 @@ h1 {
   box-sizing: border-box;
   position: relative;
   background-color: rgb(0, 0, 42);
-
 }
 
 .footer-links {
@@ -243,9 +242,14 @@ h1 {
 
 footer {
   margin: 0;
-  margin-top: 60px;
+  margin-top: 180px;
   background-color: rgb(0, 0, 42);
   padding: 0 0 25px 25px;
+  margin-bottom: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 a {
@@ -400,4 +404,221 @@ a:hover {
 
 .header-container nav {
   margin-left: auto;
+}
+
+.form-filler {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.form-filler label {
+  margin-bottom: 5px;
+  font-weight: normal;
+  font-style: italic;
+  margin-top: -10px;
+}
+
+.form-filler button {
+  width: 110px;
+  padding: 5px;
+  background-color: #002060;
+  color: white;
+  margin: 10px 0 -5px 0;
+  font-style: italic;
+  font-size: 14px;
+
+}
+
+/* Container for the contact form */
+.form-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.into h4 {
+  margin-bottom: -30px;
+}
+
+.contact-details {
+  flex: 1;
+  margin-right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -25px;
+}
+
+.contact-details-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.intro-auxilary {
+  flex: 1;
+}
+
+.intro-auxilary p {
+  margin: 0;
+}
+
+/* Form styling */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #002060;
+  outline: none;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form button {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background-color: #002060;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #001040;
+}
+
+/* Preferred call time options styling */
+.call-time-options {
+  margin-bottom: 20px;
+}
+
+.call-time-options .day {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.call-time-options .day strong {
+  grid-column: span 2;
+  width: auto;
+}
+
+.call-time-options label {
+  display: inline-flex;
+  align-items: center;
+  font-weight: normal;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  grid-column: span 1;
+}
+
+.call-time-options .asap-text {
+  grid-column: span 4;
+}
+
+.call-time-options .asap-checkbox {
+  grid-column: span 1;
+  margin-left: -116px;
+  margin-top: 20px;
+}
+
+.call-time-options .asap input {
+  margin-left: auto;
+}
+
+.call-time-options label input {
+  margin-right: 5px;
+}
+
+
+/* Interests checkboxes styling */
+.interests {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  /* 9 columns */
+  gap: 0;
+  margin-bottom: 15px;
+}
+
+.interests legend {
+  grid-column: span 9;
+  /* The legend takes the full width of the grid */
+}
+
+.interests label {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  grid-column: span 3;
+  width: 280px;
+  height: 20px; 
+}
+
+.interests label input {
+  margin-left: 0;
+  text-align: right;
+  width: 30px;
+  margin-top: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .call-time-options {
+    flex-direction: column;
+  }
+
+  .day {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .interests {
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 columns for small screens */
+  }
+
+  .interests legend {
+    grid-column: span 3;
+    /* The legend takes the full width of the new grid */
+  }
+
+  .interests label {
+    grid-column: span 1;
+    /* Adjusts to fit the new column layout */
+    width: auto;
+    /* Adjust width for better fitting */
+  }
 }
