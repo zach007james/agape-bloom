@@ -13,12 +13,36 @@ body::-webkit-scrollbar {
   /* For Chrome, Safari, and Opera */
 }
 
+/* Georgia Pro Regular */
+@font-face {
+  font-family: 'GeorgiaPro';
+  src: url('fonts/GeorgiaPro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Georgia Pro Bold */
+@font-face {
+  font-family: 'GeorgiaPro';
+  src: url('fonts/GeorgiaPro-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'GeorgiaPro', sans-serif;
+  font-weight: normal;
+  font-style: normal;
   color: black;
   background-color: white;
   margin: 0;
   font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'GeorgiaPro', sans-serif;
+  font-weight: bold;
+  font-style: normal;
 }
 
 .container {
