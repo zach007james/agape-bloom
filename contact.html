@@ -4,29 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agape Bloom - Let's get in touch</title>
+  <title>Contact Us</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
   <my-header></my-header>
   <div class="container">
-    <h3>Let's get in touch!</h3>
+    <h3 style="margin-bottom: 30px;">Let's keep in touch</h3>
     <div class="intro">
       <div class="contact-details">
-        <h4>Here's our contact info:</h4>
         <div class="contact-details-info">
           <p><strong>Email:</strong> <a href="mailto:info@agapebloom.com">info@agapebloom.com</a></p>
           <p><strong>Phone:</strong> (850) 867-7781</p>
         </div>
       </div>
     </div>
+<!--
     <form action="" class="form-filler">
       <label for="form-prompt">Tired of forms? Prompt our custom LLM to do this for you:</label>
       <textarea id="form-prompt" name="form-prompt"></textarea>
       <button type="button" onclick="generateFormData()">Fill Out Form</button>
       <button type="button" onclick="testGenerateFormData()">Test</button>
     </form>
+  -->
     <form class="contact-form" action="/submit_form" method="POST" id="contactForm">
 
       <label for="name">Name *</label>
@@ -41,6 +42,8 @@
       <label for="phone">Phone</label>
       <input type="tel" id="phone" name="phone" aria-label="Phone">
 
+
+      <!--
       <label for="preferred-call-time">Preferred Call Time</label>
       <fieldset class="call-time-options">
         <legend>Preferred Call Time</legend>
@@ -100,7 +103,7 @@
         <label><input type="checkbox" name="interest" value="python-development"> Python Development</label>
         <label><input type="checkbox" name="interest" value="react-development"> React Development</label>
       </fieldset>
-
+    -->
       <label for="message">How Can We Help You?</label>
       <textarea id="message" name="message" aria-label="Message" required></textarea>
 
