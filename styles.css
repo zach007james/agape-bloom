@@ -208,6 +208,14 @@ pre {
   margin-bottom: -10px;
 }
 
+.standard-image {
+  display: block;
+  max-width: 350px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .footer-content {
   color: white;
   padding: 16px;
@@ -374,6 +382,10 @@ a:hover {
   .showcase-image-os {
     padding-top: 20px;
   }
+
+  .standard-image {
+    max-width: 300px;
+}
 
   .footer-content {
     flex-direction: column;

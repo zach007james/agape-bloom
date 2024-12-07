@@ -18,7 +18,7 @@
   <div class="container">
     <div class="intro">
       <div class="intro-text">
-        <h1>Operating Systems Notes</h1>
+        <h1>Operating Systems Final Notes</h1>
         <h2>Summary</h2>
         <p>
           The following notes are a summarization of my key notes from my operating systems course, taught by Dr. Golden Richard at LSU, in addition to my external research.
@@ -122,20 +122,357 @@ void P0()
   while(true)
   {
     flag[0] = true; // marking I want to go
+    turn = 1; // give the turn to the other guy
+    while(flag[1] && turn == 1); // wait / loop until other process loses / uses turn or no longer wants to go
+    // critical section //
+    flag[0] = false; // mark I am done wanting to go (don't want to go now)
+    // remainder of non-critical code...
   }
 }
 void P1()
 {
-
-}
-          </code>
+  while(true)
+  {
+    flag[1] = true; // mark I want to go
+    turn = 0; // hand over turn to other guy
+    while(flag[0] && turn == 0); // wait / do nothing until they lose turn / desire
+    // now do the // critical section //
+    flag[1] = false; // mark I am done wanting to go
+    // remainder of non-critical code...
+  }
+}</code>
         </pre>
       </p>
       <p>
         <b>[Lamport's Bakery Algorithm]</b>: Implementation details...
+        <pre>
+          <code>
+// shared vars / init
+bool choosing[n] = {false}; // sets all processes taking a # ??? to false
+int number[n]; // sets number i chooses to 0 for all of n is.
+
+while(1) // each process i
+{ // w //
+  choosing[i] = true; // start choose 
+  number[i] = max(number) + 1; // choose 1 higher than the highest number
+  choosing[i] = false; // end choose 
+
+  for(j = 0; j < n; j++)
+  { // f //
+    while(choosing[j]); // wait until process j is done choosing
+    while(number[j] != 0 && ( (number[j], j) < (number[i], i) ));
+  } // f //
+  // critical section //
+  number[i] = 0; // set number super low (resets it) so other processes can go
+  // remainder of non-critical code...
+} // w //</code>
+        </pre>
+        While the Bakery alg. works, but you don't want to manually have to implement it every time--in software.  Ideally, you want hardware support.  One such method is...
+        <br><b>[Test & Set]</b>
+        <pre>
+          <code>
+// T&S DEF // 
+#define LOCKED 1
+
+int TestAndSet(int* lockPtr)
+{
+  // start atomic segment of code
+  int oldValue = *lockPtr;
+  *lockPtr = LOCKED;
+  // end of atomic segment of code
+
+  return oldValue;
+}
+
+void Critical()
+{
+  while(TestAndSet(&lock)); // wait until lock is 0 (unlocked)
+  // critical section // ... only 1 process can be here at a time
+  lock = 0; // unlock
+  // remainder of non-critical code...
+}
+// T&S DEF // 
+// BOUNDED WAITING T&S EX // 
+// shared vars / init
+int lock = 0; int waiting[n] = {0};
+// local vars
+int key, j;
+
+while(1) // each process i
+{
+  waiting[i] = 1; /* global */ key = 1; /* local */
+  while(waiting[i] && key) { key = TestAndSet(lock); } // wait until lock is 0 (unlocked)
+  waiting[i] = 0; // done waiting
+  // critical section //
+  j = (i + 1) % n; // next process (potentially, if...)
+  while(j != i && !waiting[j]); // wait until next process is done or not waiting
+  
+  if(j == i) { lock = 0; } // if you are the next process, reset the lock
+  else { waiting[j] = 0; } // otherwise, the next process is no longer waiting
+  // remainder of non-critical code...
+}
+// BOUNDED WAITING T&S EX //</code>
+        </pre>
+        Those are some great examples of software and hardware methods to ensure atomic synchronization, but here are two higher-level ways to use this atomicity:
       </p>
-      <p><strong>Monitors:</strong> Start...</p>
-      <p><strong>Semaphores:</strong> Start...</p>
+      <p><strong>Monitors:</strong> set of protected data items and set of mutually-exclusive procedures (only 1 thread / process / procedure running at a time) to access data items.</p>
+      <pre>
+        <code>
+monitor monitor_name
+{
+  // shared variable declarations
+
+  function P1() { ... } // procedure 1
+  function P2() { ... } // procedure 2
+  ...
+  function Pn() { ... } // procedure n
+
+  // condition variable declarations: suspend execution temporarily to allow other threads to enter the monitor
+  X.wait() { ... } 
+  X.signal() { ... } 
+}</code>
+      </pre>
+      <p><strong>Semaphores:</strong> a high-level integer variable accessed by two <b>atomically executed</b> operations...</p>
+      <ul>
+        <li>wait(S): S--; if(S>0) block(); /* if available space, give it or I'll wait until one is available. */</li>
+        <li>signal(S): S++; if(S<=0) wakeup a process; /* when done wake a process if any are waiting. */</li>
+      </ul>
+      <pre>
+        <code>
+class Semaphore
+{
+  public: 
+    void Wait(Process P);
+    void Signal();
+  private:
+    int value;
+    Queue Z; // queue of processes
+}
+
+Semaphore(int val) { value = val; Q = empty; }
+
+Wait(Process P)
+{
+  value--;
+  if(value < 0) { Q.add(P); P->block(C); }
+}
+
+Signal()
+{
+  value++;
+  if(value <= 0) { P = Q.remove(); P->wakeup(); }
+} 
+
+// mutual exclusion: used to guard critical sections
+// scheduling constraings: used to express general scheduling constrains where must wait for some circumstance</code>
+      </pre>
+      <p>
+        <b>[Bounded Buffer (Producer-Consumer) Problem (semaphore solution)]</b> := producer and consumer processes share a fixed-length buffer
+        <pre>
+          <code>
+// shared vars / init
+samaphore avail, empty, mutex;
+item_type buffer[n];
+avail = 0; // # items produced
+empty = n; // # empty slots
+mutex = 1; // guards the critical section
+
+// PRODUCER PROCESS //
+while(1)
+{
+  // produce items in nextp
+  wait(&empty); wait(&mutex);
+  // add nextp to its buffer
+  signal(&mutex); signal(&avail);
+}
+// PRODUCER PROCESS //
+// CONSUMER PROCESS //
+while(1)
+{
+  wait(&avail); wait(&mutex);
+  // remove an item from buffer - its nextc
+  signal(&mutex); signal(&empty);
+  // consume nextc at leisure
+}
+// CONSUMER PROCESS //</code>
+        </pre>
+      </p>
+      <p>
+        <b>[Reader-Writer Problem]</b> := several concurrent processes want to read / write shared data items / files<br><br>if reader present & writer waiting
+        <ul>
+          <li>Reader preference: allow additional readers to enter</li>
+          <li>Writer preference: ban additional readers until writer gets a chance</li>
+        </ul>
+        <pre>
+          <code>
+// STRONG-WRITER SOLUTION //
+// shared vars / init
+semaphore mutex = 1, write = 1; int readcount = 0;
+
+void Write()
+{
+  wait(&write);
+  // critical section (WRITING HERE) //
+  signal(&write);
+}
+
+void Read()
+{
+  wait(&mutex);
+  readcount++;
+  if(readcount == 1) { wait(&write); }
+  signal(&mutex);
+  // critical section (READING HERE) //
+  wait(&mutex);
+  readcount--;
+  if(readcount == 0) { signal(&write); }
+  signal(&mutex);
+}
+// STRONG-WRITER SOLUTION //
+
+// STRONG-READER SOLUTION //
+
+
+
+// STRONG-READER SOLUTION //
+
+
+
+// STRONG-STRONG-WRITER SOLUTION //
+// STRONG-STRONG-WRITER SOLUTION //</code>
+        </pre>
+      </p>
+      <p>
+        <b>[Dining Philosophers Problem]</b> := 5 (n) philosophers (alternating between thinking and eating, circled around a table), 5 (n) chopsticks (one between each philosopher)
+        <div class="dining-philosophers-problem">
+          <img src="./../images/dining_philosophers_diagram.jpg" class="standard-image" style="max-width: 150px;" alt="Dining Philosophers Problem">
+        </div>
+        <pre>
+          <code>
+// 'BROKEN' SEMAPHORE SOLUTION //
+// it is 'broken' because ...
+semaphore chopstick[5]; // global
+
+do
+{
+  wait(&chopstick[i]);
+  wait(&chopstick[(i+1) % 5]);
+  // critical section (EATING HERE) //
+  signal(&chopstick[i]);
+  signal(&chopstick[(i+1) % 5]);
+  // thinking 
+} while(true);
+
+// 'BROKEN' SEMAPHORE SOLUTION //
+
+// MONITOR SOLUTION //
+
+typedef enum State {thinking, eating, hungry} State;
+monitor dining
+{
+  // shared data
+  State state[5]; // current state 
+  bool self[5]; // conditions 
+}
+
+// i/k: 0...4
+function pickupi()
+{
+  state[i] = hungry;
+  test(i);
+  if(state[i] != eating) { self[i].wait(); }
+}
+
+function putdowni()
+{
+  state[i] = thinking;
+  test((i + 4) % 5);
+  test((i + 1) % 5);
+}
+
+function testk()
+{
+  if(state[(k + 4) % 5] != eating && state[(k + 1) % 5] != eating)
+  { state[k] = eating; self[k].signal(); }
+}
+
+init_code()
+{ for(i = 0; i < 5; i++) { state[i] = thinking; self[i] = false; } }
+// MONITOR SOLUTION //
+
+
+// MONITOR (WITH SEMAPHORE) SOLUTION //
+// init global vars to monitor
+semaphore mutex = 1; // exclusive access to monitor
+semaphore next = 0; // signal processes wait
+int next_count = 0; // how many signal-ers
+
+// #define i: 0...4
+function Pi() // i: 0...4
+{
+  wait(&mutex);
+  // body of procedure Pi 
+  if(next_count > 0) { signal(&next); }
+  else { signal(&mutex); }
+}
+
+// #define k: 0...4
+semaphore k_sem = 0; int k_count = 0;
+
+k.Wait()
+{
+  wait(&mutex);
+  k_count++;
+  if(k_count > 0) { signal(&next); } else { signal(&mutex); }
+  wait(&k_sem);
+  k_count--;
+}
+
+k.Signal()
+{
+  if(k_count > 0) { next_count++; signal(k_sem); wait(&next); next_count--; }
+}
+// MONITOR (WITH SEMAPHORE) SOLUTION //</code>
+        </pre>
+      </p>
+      <p><strong>Deadlock:</strong> 2+ processes involved in a cyclic wait situation, each mutually blocked and waiting for a resource from each other<br><strong>Starvation:</strong> 1+ processes are waiting indefinitely for processes</p>
+      <p>Requirements of <strong>deadlock</strong>:
+      <ul>
+        <li>Mutual exclusion: only one process at a time can use a particular 'unit' of a resource</li>
+        <li>Hold & Wait: processes acquiring resources holds resources it already has while trying to get more</li>
+        <li>No premption: can't take resources away form processes as needed</li>
+        <li>Circular wait: P0 holds R1, waiting for R2, P1 holds R2, waiting for R1, &c</li>
+      </ul></p>
+      <p><strong>Resource Allocation Graphs (RAGs)</strong>: show which processes are requresing which resources, which resources have been granted, and how many units of each resource are available.<br>
+      Processes are represented by nodes (circles), resources by rectangles (often containing multiple units (boxes inside)
+      <pre>
+        <code>
+[def] RAG G := edges E & vertices V s.t. 
+V := {P (process), R (resource)}, P := {P0, P1, ...}, R := {R0, R1, ...}
+E := {(P, R) | P -> (needs) R}, {(R, P) | R -> (allocated to) P}</code>
+      </pre>
+      RAG can be used to detect deadlocks, via detecting <strong>graph knots</strong> (cycles) := strongly-connected subgraph (of a directed graph) s.t. staring from any node in the subgraph, it is impossible to leave the subgraph by following the edges of the graph.<br>
+      Because, <strong>if no cycles / knots exists in the RAG, no deadlock exists (cycle is a necessary, not sufficient condition for deadlock; also, there can be a deadlock without a knot).</strong> To handle dealock, there are four strategies:
+      <ul>
+        <li>Prevention: elininates one of the four necessary conditions of deadlock:</li>
+        <ul>
+          <li>mutex: can relax for sharable resources, but not for exclusive resources</li>
+          <li>hold & wait: don't let process hold resources as it waits to obtain other resources, process must get all necessary resources at once; => leads to potential starvation</li>
+          <li>no preemption: allow OS to take away resources from processes which hold resources but are waiting for others, then added to a list of 'victim' processes that need to be restarted</li>
+          <li>circular wait: impose ordering on resources, require processes to requrest resources in order, eliminating possibility of circular wait</li>
+        </ul>
+        <li>Avoidance: examines requests and makes appropriate decisions to prevent the system from deadlocking</li>
+        <ul>
+          <li><strong>State</strong>: # available and allocated resources and max demands of processes</li>
+          <li><strong>Safe state</strong>: resources can be allocated to each process in some order and no dealock occurs</li>
+        </ul>
+        <li>Detection: detection alg + deadlock removal mechanism; cycle detection is O(n^2 * m) where n := # processes, m := # resources</li>
+      </ul>
+    </p>
+    <p>For deadlock avoidance, one solution is <strong>Banker's Algorithm</strong>, where processes have to declare the maximal resource needs, when the process makes a requrest, the requrest is checked to see if it would make system unsafe - if yes, deny, no grant it.</p>
+    <div class="bankers-algorithm-diagram">
+      <img src="./../images/bankers-alg.jpg" class="standard-image" style="max-width: 400px;" alt="Banker's Algorithm">
+    </div>
     </div>
 
     <div class="values">
