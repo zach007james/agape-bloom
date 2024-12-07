@@ -60,7 +60,7 @@ class myFooter extends HTMLElement {
             </a>
           </div>
         </div>
-        <p id="copywright">© 2024 Agape Bloom.  All rights reserved.</p>
+        <p id="copywright">© Zachary Robert James. All rights reserved.</p>
       </footer>
     `;
   }

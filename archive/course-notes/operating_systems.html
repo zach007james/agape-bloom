@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operating Systems Notes</title>
+  <link rel="stylesheet" href="../../styles.css">
+  <script src="../../script.js" defer></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<my-header></my-header>
+
+<body>
+  <div data-include-html="../../header.html"></div>
+
+  <div class="container">
+    <div class="intro">
+      <div class="intro-text">
+        <h1>Operating Systems Notes</h1>
+        <h2>Summary</h2>
+        <p>
+          The following notes are a summarization of my key notes from my operating systems course, taught by Dr. Golden Richard at LSU, in addition to my external research.
+        </p>
+        <p
+          This information does not duplicate copyrighted course material but rather covers general concepts openly available online (many sources/links to resources I have found helpful are provided).
+        </p>
+        <p>
+          <strong>The preferred language...</strong> is C, because you are exposed to memory management, pointers, and have direct access to threads, system calls, and its efficiency as a language (higher than assembly) while still being accessible.
+        </p>
+      </div>
+
+      <div class="intro-auxiliary">
+        <img class="showcase-image-os" src="./../images/operating_system_image.jpg" alt="Operating Systems">
+      </div>
+    </div>
+
+    <div class="values">
+      <h2>Synchronization</h2>
+      <p>
+        With multiple processes/threads sharing resources, there needs to be a way to maintain consistency for concurrent access. This is achieved through <b>synchronization primitives</b>, ensuring <b>mutual exclusion</b> before accessing the critical section, and then releasing it.
+      </p>
+      <p>
+        The correct enforcement of mutual exclusion ensures:
+        <ul>
+          <li><u>Safety:</u> Only one process/thread accesses the critical section at a time.</li>
+          <li><u>Liveness/Progress:</u> If no process is executing the critical section and others want to enter, they will eventually gain access.</li>
+          <li><u>Bounded Waiting/No Starvation:</u> The waiting time before access is granted is finite.</li>
+        </ul>
+        Assumptions:
+        <ul>
+          <li>Each process executes at a non-zero speed.</li>
+          <li>There are no assumptions about relative execution time.</li>
+          <li>The solution does not contain race conditions.</li>
+        </ul>
+      </p>
+      <p>
+        <b>[Dekker's Algorithm]</b>
+        <pre>
+          <code>
+bool flag[2]; int turn;
+
+int main() { flag[0] = flag[1] = false; parbegin(P0, P1); } // init code
+
+void P0()
+{ // P0 // 
+  while(true)
+  { // w // 
+    flag[0] = true; // set flag for process to want to go
+    while(flag[1]) // if other process wants to go...
+    { // w //
+      if(turn == 1) // ...and it is the other process's turn
+      { // i //
+        flag[0] = false; // temporarily disable your want to go
+        while(turn == 1); // wait until other loses / uses turn
+        flag[0] = true; // re-enable your want to go
+      } // i //
+    } // w //
+    // critical section // // now mark your critical section
+    turn = 1; // set the the other turn so the other process can go...
+    flag[0] = false; // ...and disable your want to go
+    // non-critical code // // and do non-critical stuff
+  } // w //
+} // P0 //
+
+void P1()
+{ // P1 //
+  while(true)
+  { // w //
+    flag[1] = true; // say I want to go
+    while(flag[0]) // if the other process also wants to go
+    { // w //
+      if(turn == 0) // if it is the other process's turn...
+      { // i //
+        flag[1] = false;
+        while(turn == 0);
+        flag[1] = true;
+      } // i //
+    } // w //
+    // critical section // 
+    turn = 0;
+    flag[1] = false;
+    // non-critical code //
+  } // w //
+} // P1 //</code>
+        </pre>
+        <p><b>[pf]</b>
+          
+        </p>
+      </p>
+      <p>
+        <b>[Peterson's Algorithm]</b>: Implementation details...
+        <pre>
+          <code>
+int flag[2]; int turn;
+
+void main() { flag[0] = flag[1] = false; parbegin(P0, P1); }
+
+void P0()
+{
+  while(true)
+  {
+    flag[0] = true; // marking I want to go
+  }
+}
+void P1()
+{
+
+}
+          </code>
+        </pre>
+      </p>
+      <p>
+        <b>[Lamport's Bakery Algorithm]</b>: Implementation details...
+      </p>
+      <p><strong>Monitors:</strong> Start...</p>
+      <p><strong>Semaphores:</strong> Start...</p>
+    </div>
+
+    <div class="values">
+      <h2>Memory Management</h2>
+      <p>Content coming soon...</p>
+    </div>
+
+    <div class="values">
+      <h2>File Systems</h2>
+      <p>Content coming soon...</p>
+    </div>
+
+    <div class="values">
+      <h2>Scheduling</h2>
+      <p>Content coming soon...</p>
+    </div>
+  </div>
+
+  <div class="copyright">
+  </div>
+
+  <script src="./../../scripts/script.js"></script>
+</body>
+<my-footer></my-footer>
+
+</html>
